@@ -17,8 +17,8 @@ To start playing the hangman game, please follow these instructions:
 ## __Contributions__
 #### This is a project for my portfolio. It is a 'work in progress' so I will be working on it over time to get it to 'work'. I've worked with my JS instructors (Matina & Jamal) to review my code. Otherwise, I should not take outside input on this project.
 ## __Authors and Acknowledgement__
-#### Christy Hutchins is the author of this code. I did reference books on Javascript, game counters, YouTube videos, a google image search for making a drawing out of characters, and help from Matina (JS Instructor) to trouble shoot my first pass version. 
+#### Christy Hutchins is the author of this code. I did reference books on Javascript, game counters, YouTube videos, a google image search for making a drawing out of characters, and help from Jamal and Matina (JS Instructors) to trouble shoot my code. I have two index.js versions; the first is my first attempt, the second is a second attempt.
 ## __License__
 #### This is an open source project. Please feel free to comment.
 ## __Project Status__
-#### This is a work in progress! My submitted code does not currently work, but I will keep working on it!
+#### This is a work in progress! My submitted code now works, but I need to work out why my answer array is showing -1: undefined. This is why I left the console.log showing the word to the player for now. I will keep working on it!

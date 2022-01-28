@@ -6,126 +6,78 @@ const getWord = () => {
     return word;
 };
 
-const maxGuess = 6;
-const errors = 0;
+const rounds = 6; 
+let wrongCount = 0;
 let count = 0;
-let userGuess = '@';
+const word = getWord();
+const getLetterFromUser = () => {
+    return prompt.keyIn('Please guess a letter: ', {limit:
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'});
+};
+console.log("Press ctrl + c to stop play.");
 
-/*Do I need a "start, message function HERE?"*/
-const isLetter = () => { /*Quokka Error Message "false ​​​​​at ​​​​​​​​isLetter()​​​ ​quokka.js:15:0​/"*/
-    const guess = userGuess[0];
-    return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(guess) > -1;
-}; 
-console.log(isLetter());
+const answerArray = [];
 
-const buildAnswerArray = (word) => {
-    const answerArray = []; 
+const correctAnswers = [];
+
+const buildAnswerArray = (word, userGuess) => { 
     for (let i = 0; i < word.length; i++) {
+        if(correctAnswers.includes(word[i])) {
+        answerArray[word.indexOf(correctAnswers[i])] = correctAnswers[i];
+        } else {
         answerArray[i] = "_";
-    };
-    return answerArray;
-};
-
-const guessStatus = (answerArray) => {  
-    return answerArray.join(" ");
-};
-
-const getGuess = () => {   
-    return prompt("Please guess 1 letter: ");   /*OK? or shld I use a console.log("Please guess 1 letter: ?")*/         
-};
-
-const gameStatus = (guess, word, answerArray) => {/*Are gameStatus & guess doing similar things-Need both?*/
-    let visual = 0;
-    for (var j = 0; j < word.length; j++) {
-        if (word[j] === guess) {
-            answerArray[j] = guess;
-            visual++;
-        }
-    } 
-    return visual;  
-};
-/*
-const maxGuess = () => {        Took out- Quokka error msg "maxGuess already declared"
-    if (errors >= maxGuess) {
-      return prompt("Round Over! The answer was" + word);  
-    }
-};  */
-
-const roundStatus = () => { /*Why is roundStatus 'void'? what do I need to return?*/
-    const round = maxGuess();  /*This may not be correct*/
-    if (gameStatus === true) {
-        console.log("Games won" + gameStatus);
-    } else {
-        console.log("Press ctrl + c to stop play.");
-    };
-};
-round(); /*This may not be correct*/
-
-const guess = () => { /*Why is guess 'void'?--what do I need to return?*/
-    if (guess === null) {
-    } else if (guess.length !== 1) {
-        console.log("Please enter only a single letter");
-    } else {
-        for (let j = 0; j < word.length; j++) {
-            if (word[j] === guess) {
-                answerArray[j] = guess;
-                remainingLetters--;
-            };
-        }; 
-        count++; {            
         };
-        if (count > 6) {
-            console.log("Game Over. The word was " + word);
+    };
+    return answerArray.join("");
+};
+
+const getDisplayGraphic = () => { 
+    let displayGraphic = "";
+    for(let i = 0; i < wrongCount; i++) {
+        if (i === 0) {
+            displayGraphic += "  __[[ ]]__\n";
+        } else if (i === 1) {
+            displayGraphic += "   ( *^* )\n";
+        } else if (i === 2) {
+            displayGraphic += " >(   *   )<\n";
+        } else if (i === 3) {
+            displayGraphic += " (    *    )\n"; 
+        } else if (i === 4) {
+            displayGraphic += "(     *     )\n";
+        } else {
+            displayGraphic += "~~~~~~~~~~~~~~\n";
+   };
+};
+   return displayGraphic;
+};
+
+console.log("word", word); //Am leaving this in for now to help player
+const checkUserAnswer = (userGuess) => {
+    if (word.includes(userGuess)) {
+        correctAnswers.push(userGuess);
+        const buildAnswer = buildAnswerArray(word, userGuess);
+        console.log(answerArray);
+    } else { 
+        wrongCount++;
+        const hangmanDisplay = getDisplayGraphic();
+        console.log(hangmanDisplay);
+    };
+};
+
+const startRound = () => {
+    const buildAnswer = buildAnswerArray(word);
+    while (count < rounds) {
+        console.log("word", answerArray);
+        count++;
+        const userGuess = getLetterFromUser(word);
+        checkUserAnswer(userGuess);
+        if (count === 6) {
+            const userResponse = prompt.question("Would you like to play again? Y for Yes, N for No");
+            if (userResponse.toUpperCase() === "Y") {
+                startRound();
+            }; 
         };
-};
-const word = getWord;
-const answerArray = buildAnswerArray;
-const remainingLetters = word.length;
-let winCount = 0;
-let total = 0;
-
-const displayGraphic = (guess) => {  
-   if (guess = 0) {
-       return "__[[ ]]__";
-   } else if (guess = 1) {
-       return "   ( * * )";
-   } else if (guess = 2) {
-       return ">(    *    )<";
-       } else if (guess = 3) {
-       return "("; 
-   } else if (guess = 4) {
-       return "     *      ";
-   } else {
-       return "             )";
-   }
+    };
 };
 
-const round = () => {
-    if (gameStatus >= maxGuess()) {
-       /*  Need something here am sure*/
-    } 
-    let roundDisplay = "New Round!";
-    console.log(roundDisplay);
-    let word;  /* Have no idea what to 'declare' here, H/E know need to do something with winCount
-                 and total to display 'Games Won:' + round + ' of ' + total;*/
-}
-
-while (remainingLetters > 0) {
-    guessStatus(answerArray);  /* Does this need to go after if/else statements?*/
-    const guess = getGuess();   /* Does this need to go after if/else statements?*/ 
-    if (guess === null) {
-        displayGraphic(guess);
-        break;
-    } else if (guess !== 1) { 
-        console.log("Please enter 1 letter only");        
-    } else if (guess === true) {
-        getGuess();
-    } else {
-        let correctGuesses = gameStatus(guess, word, answerArray);
-        remainingLetters -= correctGuesses;
-        console.log("You won this round!");
-    }
-    console.log("Round Over. The word was " + word);
-    round();
-}};
-round();
+startRound();
